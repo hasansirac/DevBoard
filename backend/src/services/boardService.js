@@ -1,3 +1,6 @@
+const taskRepository = require("../repositories/taskRepository");
+const { calculateBoardProgress } = require("./progressService");
+
 const AppError = require("../utils/AppError");
 
 const boardRepository = require("../repositories/boardRepository");
@@ -33,6 +36,25 @@ const getBoardById = async (boardId, userId) => {
   }
 
   return board;
+};
+
+const getBoardProgress = async (boardId, userId) => {
+  const board = await boardRepository.getBoardById(boardId, userId);
+
+  if (!board) {
+    throw new AppError("Board not found", 404);
+  }
+
+  const tasks = await taskRepository.getTasksByBoardId(boardId);
+
+  const progress = calculateBoardProgress(tasks);
+
+  return {
+    boardId: Number(boardId),
+    progress,
+    totalTasks: tasks.length,
+    completedTasks: tasks.filter((task) => task.status === "done").length
+  };
 };
 
 const updateBoard = async (boardId, boardData, userId) => {
@@ -85,5 +107,6 @@ module.exports = {
   getBoards,
   getBoardById,
   updateBoard,
-  deleteBoard
+  deleteBoard,
+  getBoardProgress
 };

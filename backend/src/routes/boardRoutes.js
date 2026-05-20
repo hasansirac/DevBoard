@@ -79,6 +79,30 @@ router.get("/", authMiddleware, boardController.getBoards);
  *       200:
  *         description: Board retrieved successfully
  */
+
+/**
+ * @swagger
+ * /api/boards/{id}/progress:
+ *   get:
+ *     summary: Get board progress
+ *     tags: [Boards]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Board progress retrieved successfully
+ */
+router.get(
+  "/:id/progress",
+  authMiddleware,
+  boardController.getBoardProgress
+);
 router.get("/:id", authMiddleware, boardController.getBoardById);
 
 /**

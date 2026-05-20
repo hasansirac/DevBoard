@@ -36,6 +36,18 @@ const getBoardById = asyncHandler(async (req, res) => {
   res.status(200).json(board);
 });
 
+const getBoardProgress = asyncHandler(async (req, res) => {
+  const boardId = req.params.id;
+  const userId = req.user.id;
+
+  const progressData = await boardService.getBoardProgress(
+    boardId,
+    userId
+  );
+
+  res.status(200).json(progressData);
+});
+
 const updateBoard = async (req, res) => {
   try {
     const result = await boardService.updateBoard(
@@ -72,5 +84,6 @@ module.exports = {
   getBoards,
   getBoardById,
   updateBoard,
-  deleteBoard
+  deleteBoard,
+  getBoardProgress
 };
