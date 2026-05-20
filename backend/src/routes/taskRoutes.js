@@ -1,3 +1,10 @@
+const {
+  createTaskValidation,
+  updateTaskValidation
+} = require("../middlewares/validators/taskValidator");
+
+const validationMiddleware = require("../middlewares/validationMiddleware");
+
 /**
  * @swagger
  * tags:
@@ -19,8 +26,13 @@ const taskController = require("../controllers/taskController");
  *     security:
  *       - bearerAuth: []
  */
-router.post("/", authMiddleware, taskController.createTask);
-
+router.post(
+  "/",
+  authMiddleware,
+  createTaskValidation,
+  validationMiddleware,
+  taskController.createTask
+);
 /**
  * @swagger
  * /api/tasks/board/{boardId}:
@@ -41,7 +53,13 @@ router.get("/board/:boardId", authMiddleware, taskController.getTasksByBoardId);
  *     security:
  *       - bearerAuth: []
  */
-router.put("/:id", authMiddleware, taskController.updateTask);
+router.put(
+  "/:id",
+  authMiddleware,
+  updateTaskValidation,
+  validationMiddleware,
+  taskController.updateTask
+);
 
 /**
  * @swagger
