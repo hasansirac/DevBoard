@@ -135,10 +135,25 @@ async function loadBoards() {
     div.innerHTML = `
       <h3>${board.title}</h3>
       <p>${board.description || ""}</p>
-      <button onclick="selectBoard(${board.id}, '${board.title}')">Select</button>
-      <button onclick="updateBoard(${board.id})">Update</button>
-      <button onclick="deleteBoard(${board.id})">Delete</button>
+
+      <button class="select-board-btn">Select</button>
+      <button class="update-board-btn">Update</button>
+      <button class="delete-board-btn">Delete</button>
     `;
+
+    div.querySelector(".select-board-btn").addEventListener("click", () => {
+      selectedBoardId = board.id;
+      selectedBoardText.textContent = `Selected board: ${board.title}`;
+      loadTasks(board.id);
+    });
+
+    div.querySelector(".update-board-btn").addEventListener("click", () => {
+      updateBoard(board.id);
+    });
+
+    div.querySelector(".delete-board-btn").addEventListener("click", () => {
+      deleteBoard(board.id);
+    });
 
     boardsContainer.appendChild(div);
   });
