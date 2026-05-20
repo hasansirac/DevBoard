@@ -10,6 +10,12 @@ const router = express.Router();
 const authMiddleware = require("../middlewares/authMiddleware");
 const boardController = require("../controllers/boardController");
 
+const {
+  createBoardValidation
+} = require("../middlewares/validators/boardValidator");
+
+const validationMiddleware = require("../middlewares/validationMiddleware");
+
 /**
  * @swagger
  * /api/boards:
@@ -33,7 +39,13 @@ const boardController = require("../controllers/boardController");
  *       201:
  *         description: Board created successfully
  */
-router.post("/", authMiddleware, boardController.createBoard);
+router.post(
+  "/",
+  authMiddleware,
+  createBoardValidation,
+  validationMiddleware,
+  boardController.createBoard
+);
 
 /**
  * @swagger

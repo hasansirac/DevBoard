@@ -1,3 +1,6 @@
+const asyncHandler = require("../utils/asyncHandler");
+const AppError = require("../utils/AppError");
+
 const boardService = require("../services/boardService");
 
 const createBoard = async (req, res) => {
@@ -22,20 +25,16 @@ const getBoards = async (req, res) => {
   }
 };
 
-const getBoardById = async (req, res) => {
-  try {
-    const board = await boardService.getBoardById(
-      req.params.id,
-      req.user.id
-    );
+const getBoardById = asyncHandler(async (req, res) => {
+  const boardId = req.params.id;
 
-    res.status(200).json(board);
-  } catch (error) {
-    res.status(404).json({
-      error: error.message
-    });
-  }
-};
+  const board = await boardService.getBoardById(
+    boardId,
+    req.user.id
+  );
+
+  res.status(200).json(board);
+});
 
 const updateBoard = async (req, res) => {
   try {

@@ -11,6 +11,8 @@ const taskRoutes = require("./routes/taskRoutes");
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./docs/swagger");
 
+const errorMiddleware = require("./middlewares/errorMiddleware");
+
 const app = express();
 
 app.use(cors());
@@ -31,5 +33,7 @@ app.get("/", (req, res) => {
     message: "DevBoard API is running"
   });
 });
+
+app.use(errorMiddleware);
 
 module.exports = app;

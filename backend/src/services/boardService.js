@@ -1,3 +1,5 @@
+const AppError = require("../utils/AppError");
+
 const boardRepository = require("../repositories/boardRepository");
 
 const createBoard = async (boardData, userId) => {
@@ -27,7 +29,7 @@ const getBoardById = async (boardId, userId) => {
   const board = await boardRepository.getBoardById(boardId, userId);
 
   if (!board) {
-    throw new Error("Board not found");
+    throw new AppError("Board not found", 404);
   }
 
   return board;
